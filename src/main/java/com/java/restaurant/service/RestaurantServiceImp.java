@@ -42,7 +42,7 @@ public class RestaurantServiceImp implements RestaurantService {
 		if (upFile.getSize() != 0) {
 			String fileName = Long.toString(System.currentTimeMillis()) + "_" + upFile.getOriginalFilename();
 			long fileSize = upFile.getSize();
-			File path = new File("C:\\Users\\User\\Desktop\\git\\pro\\src\\main\\webapp\\resources\\img");
+			File path = new File(request.getSession().getServletContext().getRealPath("/").concat("resources/img"));
 			path.mkdir();
 			if (path.exists() && path.isDirectory()) {
 				File file = new File(path, fileName);
@@ -75,9 +75,13 @@ public class RestaurantServiceImp implements RestaurantService {
 		int endRow = currengPage * boardSize;
 		List<RestaurnatDto> restaurantList = null;
 		int count = 0;
+		
+		if(RTtype == null) {
+			RTtype="all";
+		}
+		
 		if (RTtype.equals("all")) {
 			count = restaurantDao.getCount();
-			System.out.println("asdasds");
 			if (count > 0) {
 				restaurantList = restaurantDao.restaurantList(startRow, endRow);
 			}
